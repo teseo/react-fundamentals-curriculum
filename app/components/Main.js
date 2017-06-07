@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import ZipCodeBox from './ZipCodeBox';
+import NavBar from './NavBar';
 
 class Main extends React.Component {
 
@@ -8,11 +9,7 @@ class Main extends React.Component {
 
     return (
       <div className='container'>
-        <div className='navbar'>
-          <h1>Clever Title</h1>
-          <ZipCodeBox
-            style={Object.assign({flexDirection: `row`})}/>
-        </div>
+        <NavBar />
         <div className='home-container'
           style={{backgroundImage: `url(${Background})`}}>
           <h1 className='header'>Enter a City and State</h1>

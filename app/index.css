@@ -86,7 +86,6 @@ body {
     padding: 5px
 }
 
-.forecast-container,
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -97,13 +96,39 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     max-width: 1200px;
-    margin: 50px auto
+    margin: 50px auto;
 }
-
+.forecast-card-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-left: 15px;
+}
+.forecast-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+    margin-right: 35px;
+}
+.forecast-card-date{
+    font-weight: lighter;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.weather{
+    height: 130px;
+}
 .dayContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
     margin: 35px
 }
@@ -112,7 +137,8 @@ body {
     font-size: 65px;
     color: #333;
     font-weight: 100;
-    text-align: center
+    text-align: center;
+
 }
 
 .subheader {
@@ -131,4 +157,8 @@ body {
     max-width: 400px;
     margin: 0 auto;
     text-align: center
+}
+
+.router {
+    height:100%;
 }
