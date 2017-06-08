@@ -1,100 +1,98 @@
 import React from 'react';
+import {PropTypes} from 'prop-types';
 import queryString from 'query-string';
-import PropTypes from 'prop-types';
-import NavBar from './NavBar';
 import api from '../utils/api';
-import moment from 'moment'
-import Navigation  from 'react-router';
+import moment from 'moment';
 
 function ForecastCard(props){
   let icon = props.icon;
-  let forecastImage = 'app/images/weather-icons/' + icon + '.svg';
-
   let date = props.date;
-  return (
-     <div className='forecast-card'>
-       <img
-         src={forecastImage}
-         className='weather'/>
-       <h2 className='forecast-card-date'>{moment.unix(date).format('dddd, MMMM D')}</h2>
 
-     </div>
-   );
+  return(
+    <div className='forecast-card' onClick={props.onClick} >
+      <img className='icon' src={'app/images/weather-icons/' + icon + '.svg'} />
+        {moment.unix(date).format('dddd, MMMM D')}
+    </div>
+  )
 }
 ForecastCard.propTypes = {
-  date: PropTypes.number.isRequired,
-  icon: PropTypes.string.isRequired
-}
+  icon : PropTypes.string.isRequired,
+  date: PropTypes.number.isRequired
+};
+class Forecast extends React.Component{
 
-class Forecast extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-    var params = queryString.parse(props.location.search);
-
-    this.state = {
-      loading: false,
-      city: params.city,
-      forecastData: null
+    this.state ={
+      forecastData: [],
+      loading: true
     }
   }
-
-  componentDidMount() {
+  componentDidMount(){
+    var city = queryString.parse(this.props.location.search).city;
     this.setState(()=>{
       return {
-        loading: !this.state.loading
+        loading:true
       }
     });
-    this.getForecast(this.state.city)
-    .then( (city) => {
+    this.makeRequest(city);
+  }
+  componentWillReceiveProps(nextProps) {
+   var city = queryString.parse(nextProps.location.search).city;
+   this.setState(()=>{
+     return {
+       loading: true
+     }
+   });
+   this.makeRequest(city);
+  }
+  makeRequest(city){
+    api.getForecast(city)
+    .then((response) => {
       this.setState(()=>{
         return {
-          loading: !this.state.loading,
-          forecastData: city.data
+          forecastData: response.data,
+          loading:false
         }
       });
     });
   }
-
-  getForecast(city){
-    return api.getForecast(city);
-  }
-
-  handleClick(event){
-    console.log('sss');
-    this.setState({redirect: true});
-  }
-
   render(){
-    var isLoading = this.state.loading;
-    var forecastData = this.state.forecastData;
-    var city = this.state.city;
-    if (this.state.redirect) {
-    //  return <Navigation push to={'/details/' + city}  />;
-    //  return <Navigation push to={'/details/' + city}  />;
+    if(this.state.loading) {
+      return(<div>loading...</div>)
     }
-    return (
-      <div className='container'
-        onClick={ event => this.handleClick(event)}
-    >
-        <NavBar />
-        {isLoading === true ? <div>loading...</div> :''}
-          {forecastData &&
-            <div className ='forecast-container'>
-              <h1 className='forecast-header'>{city}</h1>
-              <div className = 'forecast-card-list'>
-                {forecastData.list.map((day) => {
-                  
-                  return <ForecastCard
-                    date={day.dt}
-                    key={day.dt}
-                    icon={day.weather[0].icon} />
-                })}
-              </div>
-            </div>}
-      </div>
+    let forecastList = this.state.forecastData.list;
+    let city = this.state.forecastData.city;
+    let cityName = this.state.forecastData.city.name;
+    return(
+        <div className='forecast-list-container'>
+          <h1 className='header-list'>{city.name}</h1>
+          <div className='forecast-list'>
+            {forecastList.map( (day,index) => {
+              return (
+                <ForecastCard
+                  icon = {day.weather[0].icon}
+                  key = {day.dt}
+                  date = {day.dt}
+                  city = {city.name}
+                  onClick={() =>{
+                      this.props.history.push({
+                        pathname: 'details/' + cityName,
+                        state: {
+                          cityData: forecastList[index],
+                          cityName: cityName
+                        }
+                      })
+                  }}/>
+              )
+            })}
+          </div>
+        </div>
     )
   }
 }
+
+Forecast.propTypes = {
+};
 
 module.exports = Forecast;
