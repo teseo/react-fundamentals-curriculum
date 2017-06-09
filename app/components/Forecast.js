@@ -15,10 +15,12 @@ function ForecastCard(props){
     </div>
   )
 }
+
 ForecastCard.propTypes = {
   icon : PropTypes.string.isRequired,
   date: PropTypes.number.isRequired
 };
+
 class Forecast extends React.Component{
 
   constructor(props) {
@@ -30,30 +32,24 @@ class Forecast extends React.Component{
   }
   componentDidMount(){
     var city = queryString.parse(this.props.location.search).city;
-    this.setState(()=>{
-      return {
-        loading:true
-      }
+    this.setState({
+      loading:true
     });
     this.makeRequest(city);
   }
   componentWillReceiveProps(nextProps) {
    var city = queryString.parse(nextProps.location.search).city;
-   this.setState(()=>{
-     return {
-       loading: true
-     }
+   this.setState({
+     loading: true
    });
    this.makeRequest(city);
   }
   makeRequest(city){
     api.getForecast(city)
     .then((response) => {
-      this.setState(()=>{
-        return {
-          forecastData: response.data,
-          loading:false
-        }
+      this.setState({
+        forecastData: response.data,
+        loading:false
       });
     });
   }
@@ -91,8 +87,5 @@ class Forecast extends React.Component{
     )
   }
 }
-
-Forecast.propTypes = {
-};
 
 module.exports = Forecast;

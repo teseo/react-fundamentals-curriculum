@@ -22,11 +22,10 @@ class App extends React.Component{
                                           pathname: '/forecast',
                                           search: '?city=' + city
                                         })
-                                    }}/>
+                                }}/>
                             </div>
                         )
-                    }}
-                    />
+                    }}/>
                   <Route
                     exact path='/'
                     render={ props => {

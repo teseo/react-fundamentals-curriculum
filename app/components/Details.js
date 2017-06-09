@@ -12,7 +12,6 @@ class Details extends React.Component {
     let min = cityData.temp.min;
     let max = cityData.temp.max;
     let humidity = cityData.humidity;
-    console.log(cityData);
     return (
       <div className='city-details'>
           <div className='day-container'>
@@ -30,8 +29,5 @@ class Details extends React.Component {
     );
   }
 }
-
-Details.propTypes = {
-};
 
 module.exports = Details;

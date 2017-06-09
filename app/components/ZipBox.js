@@ -1,4 +1,5 @@
 import React from 'react';
+import {PropTypes} from 'prop-types';
 
 class ZipBox extends React.Component{
 
@@ -11,10 +12,8 @@ class ZipBox extends React.Component{
   }
   handleChange (event){
     let city = event.target.value;
-    this.setState(()=>{
-      return {
-        city: city
-      }
+    this.setState({
+      city: city
     });
   }
   handleClick (event){
@@ -43,4 +42,9 @@ class ZipBox extends React.Component{
   }
 }
 
+ZipBox.propTypes ={
+  className: PropTypes.string.isRequired,
+  direction: PropTypes.string.isRequired,
+  submitZipBox: PropTypes.func.isRequired,
+}
 module.exports = ZipBox;
