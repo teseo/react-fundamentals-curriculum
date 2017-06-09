@@ -23,8 +23,8 @@ ForecastCard.propTypes = {
 
 class Forecast extends React.Component{
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state ={
       forecastData: [],
       loading: true

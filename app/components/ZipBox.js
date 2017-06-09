@@ -3,8 +3,8 @@ import {PropTypes} from 'prop-types';
 
 class ZipBox extends React.Component{
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.state = {
       city: ''
